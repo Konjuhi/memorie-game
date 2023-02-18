@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_learn/card_model.dart';
+import 'package:flutter_learn/models/card_model.dart';
 
-import 'memory_game_model.dart';
+import '../models/memory_game_model.dart';
 
-class EmojiMemoryGame with ChangeNotifier {
+class MemoryGameProvider with ChangeNotifier {
   static const emojis = [
     '🚕',
     '🚗',
@@ -24,14 +24,14 @@ class EmojiMemoryGame with ChangeNotifier {
     '🏂'
   ];
 
-  static MemoryGame<String> createMemoryGame() {
-    return MemoryGame(
+  static MemoryGameModel<String> createMemoryGame() {
+    return MemoryGameModel(
       numberOfPairsOfCards: 4,
       createCardContent: (int pairIndex) => emojis[pairIndex],
     );
   }
 
-  final MemoryGame model = EmojiMemoryGame.createMemoryGame();
+  final MemoryGameModel model = MemoryGameProvider.createMemoryGame();
 
   List<CardModel>? get cards {
     return model.cards;

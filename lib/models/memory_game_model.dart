@@ -1,9 +1,9 @@
-import 'package:flutter_learn/card_model.dart';
+import 'package:flutter_learn/models/card_model.dart';
 
-class MemoryGame<CardContent> {
+class MemoryGameModel<CardContent> {
   List<CardModel>? cards;
 
-  MemoryGame(
+  MemoryGameModel(
       {this.cards,
       required int numberOfPairsOfCards,
       required CardContent? Function(int)? createCardContent}) {
