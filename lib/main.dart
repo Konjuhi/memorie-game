@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/representer_view.dart';
+import 'package:provider/provider.dart';
 
 import 'emoji_memory_game.dart';
 
@@ -13,13 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EmojiMemoryGame viewModel = EmojiMemoryGame();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ContentView(
-        viewModel: viewModel,
+    return ChangeNotifierProvider(
+      create: (_) => viewModel,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const ContentView(),
       ),
     );
   }

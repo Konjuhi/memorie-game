@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_learn/card_model.dart';
 
 import 'memory_game_model.dart';
 
-class EmojiMemoryGame {
+class EmojiMemoryGame with ChangeNotifier {
   static const emojis = [
     '🚕',
     '🚗',
@@ -38,5 +39,6 @@ class EmojiMemoryGame {
 
   void choose(CardModel card) {
     model.choose(card);
+    notifyListeners();
   }
 }

@@ -1,42 +1,45 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'card_model.dart';
 import 'emoji_memory_game.dart';
 
 class ContentView extends StatelessWidget {
-  final EmojiMemoryGame viewModel;
-
-  const ContentView({super.key, required this.viewModel});
+  const ContentView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  childAspectRatio: 2 / 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+    return Consumer<EmojiMemoryGame>(builder: (context, viewModel, child) {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 2 / 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return CardView(
+                      card: viewModel.cards![index],
+                      viewModel: viewModel,
+                    );
+                  },
+                  itemCount: viewModel.cards?.length,
                 ),
-                itemBuilder: (BuildContext context, int index) {
-                  return CardView(
-                    card: viewModel.cards![index],
-                    viewModel: viewModel,
-                  );
-                },
-                itemCount: viewModel.cards?.length,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -56,7 +59,7 @@ class _CardViewState extends State<CardView> {
     return GestureDetector(
       onTap: () {
         if (kDebugMode) {
-          print("Kliko: ${widget.card.id}");
+          print("Kliko: ${widget.card.isFacedUp}");
         }
         widget.viewModel.choose(widget.card);
       },
