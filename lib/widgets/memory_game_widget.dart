@@ -27,7 +27,11 @@ class _MemoryGameWidgetState extends State<MemoryGameWidget> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: widget.card.isFacedUp ? Colors.white : Colors.red,
+          color: widget.card.isFacedUp
+              ? Colors.white
+              : widget.card.isMatched // updated line
+                  ? Colors.white
+                  : Colors.red,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
