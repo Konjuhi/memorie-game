@@ -4,6 +4,6 @@
 
 ### Screenshots
 
-![Simulator Screen Shot - iPhone 14 Pro Max - 2023-02-24 at 15 10 29](https://user-images.githubusercontent.com/44701013/221199448-0efd3c37-25e0-48de-adf7-2f7d6c8b90d4.png)
+<img width="308" alt="Screen Shot 2023-02-24 at 15 14 04" src="https://user-images.githubusercontent.com/44701013/221200296-ee6e06f6-9d7b-402a-8b31-959e6d1f43fe.png">
 
-![Simulator Screen Shot - iPhone 14 Pro Max - 2023-02-24 at 15 09 57](https://user-images.githubusercontent.com/44701013/221199459-56bcddbe-a8c5-4058-af7a-58e547e7b7cf.png)
+<img width="327" alt="Screen Shot 2023-02-24 at 15 14 46" src="https://user-images.githubusercontent.com/44701013/221200303-1e821f2a-9e7d-4774-b91b-bc0262bc6549.png">
