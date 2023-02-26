@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../models/card_model.dart';
@@ -18,29 +19,35 @@ class MemoryGameWidget extends StatefulWidget {
 class _MemoryGameWidgetState extends State<MemoryGameWidget> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (kDebugMode) {
-          print("Kliko: ${widget.card.isFacedUp}");
-        }
-        widget.viewModel.choose(widget.card);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: widget.card.isFacedUp
-              ? Colors.white
-              : widget.card.isMatched // updated line
-                  ? Colors.white
-                  : Colors.red,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            widget.card.isFacedUp ? widget.card.content : '',
-            style: const TextStyle(fontSize: 32),
+    return LayoutBuilder(builder: (context, constraints) {
+      return GestureDetector(
+        onTap: () {
+          widget.viewModel.choose(widget.card);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.card.isMatched
+                ? Colors.transparent
+                : widget.card.isFacedUp
+                    ? Colors.white
+                    : Colors.blue,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: widget.card.isFacedUp ? Colors.black : Colors.transparent,
+              width: 3,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              widget.card.isFacedUp ? widget.card.content.toString() : '',
+              style: TextStyle(
+                fontSize:
+                    min(constraints.maxWidth, constraints.maxHeight) * 0.8,
+              ),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

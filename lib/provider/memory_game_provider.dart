@@ -21,12 +21,15 @@ class MemoryGameProvider with ChangeNotifier {
     '🛹',
     '🛼',
     '⛷',
-    '🏂'
+    '🏂',
+    '🏍',
+    '🚉',
+    '🚊'
   ];
 
   static MemoryGameModel<String> createMemoryGame() {
     return MemoryGameModel(
-      numberOfPairsOfCards: 4,
+      numberOfPairsOfCards: 19,
       createCardContent: (int pairIndex) => emojis[pairIndex],
     );
   }
