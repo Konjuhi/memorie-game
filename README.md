@@ -1,16 +1,10 @@
-# flutter_learn
+# Memory-Game
 
-A new Flutter project.
+## 🔨Memory-Game, this application is built with the MVVM design pattern / Architecture Components and Dart
 
-## Getting Started
+### Screenshots
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+https://user-images.githubusercontent.com/44701013/221200468-092cb759-3326-4c16-920f-6dd8510635c8.mov
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
