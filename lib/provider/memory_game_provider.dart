@@ -29,7 +29,7 @@ class MemoryGameProvider with ChangeNotifier {
 
   static MemoryGameModel<String> createMemoryGame() {
     return MemoryGameModel(
-      numberOfPairsOfCards: 19,
+      numberOfPairsOfCards: 5,
       createCardContent: (int pairIndex) => emojis[pairIndex],
     );
   }
