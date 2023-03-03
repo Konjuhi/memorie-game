@@ -12,32 +12,34 @@ class MemoryGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MemoryGameProvider>(builder: (context, viewModel, child) {
-      return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
-          child: Column(
-            children: [
-              Expanded(
-                child: AspectRatioWidget(
-                  items: viewModel.cards!,
-                  aspectRatio: 2 / 3,
-                  content: (card) {
-                    if (card.isMatched && !card.isFacedUp) {
-                      return const Opacity(opacity: 0);
-                    } else {
-                      return MemoryGameWidget(
-                        card: card,
-                        viewModel: viewModel,
-                      );
-                    }
-                  },
+    return Consumer<MemoryGameProvider>(
+      builder: (context, viewModel, child) {
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+            child: Column(
+              children: [
+                Expanded(
+                  child: AspectRatioWidget(
+                    items: viewModel.cards!,
+                    aspectRatio: 2 / 3,
+                    content: (card) {
+                      if (card.isMatched && !card.isFacedUp) {
+                        return const Opacity(opacity: 0);
+                      } else {
+                        return MemoryGameWidget(
+                          card: card,
+                          viewModel: viewModel,
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
