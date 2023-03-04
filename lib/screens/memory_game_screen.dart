@@ -35,18 +35,49 @@ class MemoryGameScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(50),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      viewModel.shuffle();
-                    },
-                    child: const Text(
-                      'Shuffle',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.normal),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.shuffle();
+                        },
+                        child: const Text(
+                          'Shuffle',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ),
                     ),
-                  ),
+                    Flexible(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.addCard();
+                        },
+                        child: const Text(
+                          'Add Card',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          viewModel.restartGame();
+                        },
+                        child: const Text(
+                          'Restart',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
                 )
               ],
             ),

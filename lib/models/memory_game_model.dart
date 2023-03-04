@@ -41,6 +41,14 @@ class MemoryGameModel<CardContent> {
     cards?.shuffle();
   }
 
+  void restart() {
+    for (var card in cards!) {
+      card.isFacedUp = false;
+      card.isMatched = false;
+    }
+    shuffle();
+  }
+
   void choose(CardModel card) {
     final chosenIndex = cards!.indexWhere((c) => c.id == card.id);
     if (chosenIndex != -1 &&
