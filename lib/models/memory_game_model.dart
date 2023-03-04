@@ -37,6 +37,10 @@ class MemoryGameModel<CardContent> {
     }
   }
 
+  void shuffle() {
+    cards?.shuffle();
+  }
+
   void choose(CardModel card) {
     final chosenIndex = cards!.indexWhere((c) => c.id == card.id);
     if (chosenIndex != -1 &&

@@ -35,6 +35,19 @@ class MemoryGameScreen extends StatelessWidget {
                     },
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(50),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      viewModel.shuffle();
+                    },
+                    child: const Text(
+                      'Shuffle',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

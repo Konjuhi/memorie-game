@@ -44,4 +44,9 @@ class MemoryGameProvider with ChangeNotifier {
     model.choose(card);
     notifyListeners();
   }
+
+  void shuffle() {
+    model.shuffle();
+    notifyListeners();
+  }
 }
