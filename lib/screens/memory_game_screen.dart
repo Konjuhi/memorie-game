@@ -5,10 +5,23 @@ import 'package:provider/provider.dart';
 import '../provider/memory_game_provider.dart';
 import '../widgets/memory_game_widget.dart';
 
-class MemoryGameScreen extends StatelessWidget {
+class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({
     super.key,
   });
+
+  @override
+  State<MemoryGameScreen> createState() => _MemoryGameScreenState();
+}
+
+class _MemoryGameScreenState extends State<MemoryGameScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<MemoryGameProvider>().shuffle();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,50 +48,50 @@ class MemoryGameScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.shuffle();
-                        },
-                        child: const Text(
-                          'Shuffle',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.normal),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            viewModel.shuffle();
+                          },
+                          child: const Text(
+                            'Shuffle',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.addCard();
-                        },
-                        child: const Text(
-                          'Add Card',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.normal),
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            viewModel.addCard();
+                          },
+                          child: const Text(
+                            'Add Card',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          viewModel.restartGame();
-                        },
-                        child: const Text(
-                          'Restart',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.normal),
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            viewModel.restartGame();
+                          },
+                          child: const Text(
+                            'Restart',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.normal),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 50,
-                )
               ],
             ),
           ),

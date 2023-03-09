@@ -26,8 +26,16 @@ class MemoryGameProvider with ChangeNotifier {
     '🏂',
     '🏍',
     '🚉',
-    '🚊'
+    '🚊',
+    '🛩',
+    '🛰',
+    "🦼",
+    "🛴",
+    "🛻",
+    "⛵️",
   ];
+
+  var newContent = emojis[Random().nextInt(emojis.length)];
 
   static MemoryGameModel<String> createMemoryGame() {
     return MemoryGameModel(
@@ -48,16 +56,15 @@ class MemoryGameProvider with ChangeNotifier {
   }
 
   void restartGame() {
+    model.cards!.removeWhere((card) => card.id >= 8);
     model.restart();
     notifyListeners();
   }
 
   void addCard() {
-    if (model.cards!.length >= 20) {
+    if (model.cards!.length >= 27) {
       return; // Limit reached, do nothing
     }
-
-    var newContent = emojis[Random().nextInt(emojis.length)];
 
     // Check if the new content is already present in any existing card
     while (cards!.any((card) => card.content == newContent)) {
