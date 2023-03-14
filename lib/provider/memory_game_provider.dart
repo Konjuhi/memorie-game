@@ -33,6 +33,14 @@ class MemoryGameProvider with ChangeNotifier {
     "🛴",
     "🛻",
     "⛵️",
+    "🚂",
+    "🛫",
+    "🚠",
+    "🛞",
+    "🚲",
+    "🚑",
+    "🏎",
+    "🦽"
   ];
 
   var newContent = emojis[Random().nextInt(emojis.length)];
@@ -56,13 +64,13 @@ class MemoryGameProvider with ChangeNotifier {
   }
 
   void restartGame() {
-    model.cards!.removeWhere((card) => card.id >= 8);
+    model.cards!.removeWhere((card) => card.id >= 10);
     model.restart();
     notifyListeners();
   }
 
   void addCard() {
-    if (model.cards!.length >= 27) {
+    if (model.cards!.length >= 39) {
       return; // Limit reached, do nothing
     }
 

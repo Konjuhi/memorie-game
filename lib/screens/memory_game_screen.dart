@@ -70,10 +70,12 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                           onPressed: () {
                             viewModel.addCard();
                           },
-                          child: const Text(
-                            'Add Card',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.normal),
+                          child: const FittedBox(
+                            child: Text(
+                              'Add Card',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
                           ),
                         ),
                       ),
