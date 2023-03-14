@@ -27,6 +27,7 @@ class AspectRatioWidget<Item extends CardModel> extends StatelessWidget {
       children: [
         Expanded(
           child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: (constraints.maxWidth / width).floor(),
