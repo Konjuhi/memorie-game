@@ -55,7 +55,8 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                         onPressed: () {
                           viewModel.restartGame();
                           setState(() {
-                            _timeLeft = 30;
+                            _timeLeft =
+                                int.parse("30"); // Set to the initial value
                           });
                           startTimer(context);
                           Navigator.of(context).pop();
@@ -111,6 +112,22 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.blue),
                 ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  initialValue: _timeLeft.toString(),
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Time (seconds)',
+                  ),
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      setState(() {
+                        _timeLeft = int.parse(value);
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 50),
                   child: Row(
@@ -140,9 +157,11 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                               // Pause the timer
                               _timer.cancel();
                             }
-                            setState(() {
-                              _isPaused = !_isPaused;
-                            });
+                            setState(
+                              () {
+                                _isPaused = !_isPaused;
+                              },
+                            );
                           },
                           child: FittedBox(
                             child: Text(
