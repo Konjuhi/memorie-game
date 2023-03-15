@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/widgets/aspect_ratio_widget.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +17,66 @@ class MemoryGameScreen extends StatefulWidget {
 }
 
 class _MemoryGameScreenState extends State<MemoryGameScreen> {
+  int _timeLeft = 30;
+  late Timer _timer;
+  bool _isPaused = false;
+
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<MemoryGameProvider>().shuffle();
+      startTimer(context);
     });
-    super.initState();
+  }
+
+  void startTimer(BuildContext context) {
+    var viewModel = Provider.of<MemoryGameProvider>(context, listen: false);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!_isPaused) {
+        setState(() {
+          if (_timeLeft > 0) {
+            _timeLeft--;
+          } else {
+            _timer.cancel();
+            // Game Over
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (dialogContext) {
+                return Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: AlertDialog(
+                    title: const Text('Your Result'),
+                    content:
+                        Text('You matched ${viewModel.matchedPairs} pairs!'),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          viewModel.restartGame();
+                          setState(() {
+                            _timeLeft = 30;
+                          });
+                          startTimer(context);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Restart'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -48,23 +104,18 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                     },
                   ),
                 ),
+                Text(
+                  'Time Left: $_timeLeft',
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 50),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            viewModel.shuffle();
-                          },
-                          child: const Text(
-                            'Shuffle',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.normal),
-                          ),
-                        ),
-                      ),
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
@@ -82,7 +133,33 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
+                            if (_isPaused) {
+                              // Resume the timer
+                              startTimer(context);
+                            } else {
+                              // Pause the timer
+                              _timer.cancel();
+                            }
+                            setState(() {
+                              _isPaused = !_isPaused;
+                            });
+                          },
+                          child: FittedBox(
+                            child: Text(
+                              _isPaused ? 'Resume' : 'Pause',
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {
                             viewModel.restartGame();
+                            setState(() {
+                              _timeLeft = 30;
+                            });
                           },
                           child: const Text(
                             'Restart',

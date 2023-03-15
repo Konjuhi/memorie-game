@@ -43,6 +43,9 @@ class MemoryGameProvider with ChangeNotifier {
     "🦽"
   ];
 
+  int get matchedPairs =>
+      model.cards!.where((card) => card.isMatched).length ~/ 2;
+
   var newContent = emojis[Random().nextInt(emojis.length)];
 
   static MemoryGameModel<String> createMemoryGame() {
