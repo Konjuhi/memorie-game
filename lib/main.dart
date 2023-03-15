@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/screens/memory_game_screen.dart';
+import 'package:flutter_learn/widgets/dismiss_keyboard_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/memory_game_provider.dart';
@@ -16,12 +17,14 @@ class MyApp extends StatelessWidget {
     final MemoryGameProvider viewModel = MemoryGameProvider();
     return ChangeNotifierProvider(
       create: (_) => viewModel,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      child: DismissKeyboard(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const MemoryGameScreen(),
         ),
-        home: const MemoryGameScreen(),
       ),
     );
   }
