@@ -5,7 +5,7 @@
 ## Getting Started
 
 To get started with Memory Game, you can clone the project from GitHub repository: git clone https://github.com/Konjuhi/memorie-game.git
-After cloning the repository, navigate to the project directory and run the following command to install the dependencies:flutter pub get
+After cloning the repository, navigate to the project directory and run the following command to install the dependencies: flutter pub get
 
 ## Running the App
 
@@ -27,6 +27,15 @@ Memory Game is built using the Flutter framework and follows the Provider archit
 Screens: the UI screens of the app, including the home screen and game screen.
 Provider: the app's state management component that handles the game logic and data.
 Widgets: reusable UI components, such as the card widget and the timer widget.
+
+## Conclusion
+
+The Memory Game project is a simple yet challenging game that tests a player's memory and concentration skills. It was implemented using the Flutter framework and the Provider package for state management, making it easy to maintain and update.
+If you have any suggestions or feedback on the project, feel free to submit an issue or pull request on the project's GitHub repository.
+
+
+
+
 
 
 
