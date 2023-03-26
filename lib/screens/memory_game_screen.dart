@@ -58,10 +58,12 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                           ElevatedButton(
                             onPressed: () {
                               viewModel.restartGame();
-                              setState(() {
-                                _timeLeft =
-                                    int.parse("30"); // Set to the initial value
-                              });
+                              setState(
+                                () {
+                                  _timeLeft = int.parse(
+                                      "30"); // Set to the initial value
+                                },
+                              );
                               startTimer(context);
                               Navigator.of(context).pop();
                             },
