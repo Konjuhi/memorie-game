@@ -41,6 +41,9 @@ If you have any suggestions or feedback on the project, feel free to submit an i
 
 
 
-https://user-images.githubusercontent.com/44701013/222915073-47f1f037-dd23-4b2d-a276-05fcc73de1b5.mov
+https://user-images.githubusercontent.com/44701013/227796015-79b66a26-e9a5-49ad-8ae0-bf5ed25792c9.mov
+
+
+https://user-images.githubusercontent.com/44701013/227796018-fc667ae1-ad07-4bbc-88e9-bd5eee23e2ad.mov
 
 
