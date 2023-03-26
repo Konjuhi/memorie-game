@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_learn/models/card_model.dart';
 
 import '../models/memory_game_model.dart';
@@ -42,6 +43,11 @@ class MemoryGameProvider with ChangeNotifier {
     "🏎",
     "🦽"
   ];
+
+  bool isPaused = false;
+  bool isSnackBarShown = false;
+
+  bool get hasWon => cards!.every((card) => card.isMatched);
 
   int get matchedPairs =>
       model.cards!.where((card) => card.isMatched).length ~/ 2;

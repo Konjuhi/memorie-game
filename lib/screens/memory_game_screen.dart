@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learn/widgets/aspect_ratio_widget.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,8 @@ class MemoryGameScreen extends StatefulWidget {
 class _MemoryGameScreenState extends State<MemoryGameScreen> {
   int _timeLeft = 30;
   late Timer _timer;
-  bool _isPaused = false;
+
+  final isIOS = Platform.isIOS ? true : false;
 
   @override
   void initState() {
@@ -32,46 +35,82 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
 
   void startTimer(BuildContext context) {
     var viewModel = Provider.of<MemoryGameProvider>(context, listen: false);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!_isPaused) {
-        setState(() {
-          if (_timeLeft > 0) {
-            _timeLeft--;
-          } else {
-            _timer.cancel();
-            // Game Over
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (dialogContext) {
-                return Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: AlertDialog(
-                    title: const Text('Your Result'),
-                    content:
-                        Text('You matched ${viewModel.matchedPairs} pairs!'),
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () {
-                          viewModel.restartGame();
-                          setState(() {
-                            _timeLeft =
-                                int.parse("30"); // Set to the initial value
-                          });
-                          startTimer(context);
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Restart'),
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (!viewModel.isPaused) {
+          setState(
+            () {
+              if (viewModel.hasWon) {
+                _timer.cancel();
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (dialogContext) {
+                    return Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: AlertDialog(
+                        title: const Text('Your Result'),
+                        content: Text(
+                          'You matched all ${viewModel.matchedPairs} pairs in second of $_timeLeft',
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              viewModel.restartGame();
+                              setState(() {
+                                _timeLeft =
+                                    int.parse("30"); // Set to the initial value
+                              });
+                              startTimer(context);
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Restart'),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 );
-              },
-            );
-          }
-        });
-      }
-    });
+              } else if (_timeLeft > 0) {
+                _timeLeft--;
+              } else {
+                _timer.cancel();
+                // Game Over
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (dialogContext) {
+                    return Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: AlertDialog(
+                        title: const Text('Your Result'),
+                        content:
+                            Text('You matched ${viewModel.matchedPairs} pairs'),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              viewModel.restartGame();
+                              setState(() {
+                                _timeLeft =
+                                    int.parse("30"); // Set to the initial value
+                              });
+                              startTimer(context);
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Restart'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -106,27 +145,140 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                   ),
                 ),
                 Text(
-                  'Time Left: $_timeLeft',
+                  'Time Left: ${Duration(seconds: _timeLeft).inMinutes}:${(Duration(seconds: _timeLeft).inSeconds % 60).toString().padLeft(2, '0')}',
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.blue),
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  initialValue: _timeLeft.toString(),
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Time (seconds)',
-                  ),
-                  onChanged: (value) {
-                    if (value.isNotEmpty) {
-                      setState(() {
-                        _timeLeft = int.parse(value);
-                      });
-                    }
-                  },
-                ),
+                isIOS
+                    ? ElevatedButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext builderContext) {
+                              return SizedBox(
+                                height: MediaQuery.of(context)
+                                        .copyWith()
+                                        .size
+                                        .height /
+                                    3,
+                                child: CupertinoTimerPicker(
+                                  mode: CupertinoTimerPickerMode.ms,
+                                  initialTimerDuration:
+                                      Duration(seconds: _timeLeft),
+                                  onTimerDurationChanged:
+                                      (Duration newDuration) {
+                                    setState(() {
+                                      _timeLeft = newDuration.inSeconds;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          'Select Time',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      )
+                    : ElevatedButton(
+                        onPressed: () async {
+                          int selectedMinute = 0;
+                          int selectedSecond = 0;
+
+                          await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Select Time'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Text('Minutes'),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: DropdownButtonFormField<int>(
+                                            value: selectedMinute,
+                                            onChanged: (value) {
+                                              setState(
+                                                () {
+                                                  selectedMinute = value!;
+                                                },
+                                              );
+                                            },
+                                            items: List.generate(
+                                              60,
+                                              (index) {
+                                                return DropdownMenuItem(
+                                                  value: index,
+                                                  child: Text(index.toString()),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        const Text('Seconds'),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: DropdownButtonFormField<int>(
+                                            value: selectedSecond,
+                                            onChanged: (value) {
+                                              setState(
+                                                () {
+                                                  selectedSecond = value!;
+                                                },
+                                              );
+                                            },
+                                            items: List.generate(60, (index) {
+                                              return DropdownMenuItem(
+                                                value: index,
+                                                child: Text(index.toString()),
+                                              );
+                                            }),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('CANCEL'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      int totalSeconds =
+                                          selectedMinute * 60 + selectedSecond;
+                                      setState(() {
+                                        _timeLeft = totalSeconds;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          'Select Time',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ),
+                      ),
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 50),
@@ -150,22 +302,20 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_isPaused) {
-                              // Resume the timer
+                            if (viewModel.isPaused) {
                               startTimer(context);
                             } else {
-                              // Pause the timer
                               _timer.cancel();
                             }
                             setState(
                               () {
-                                _isPaused = !_isPaused;
+                                viewModel.isPaused = !viewModel.isPaused;
                               },
                             );
                           },
                           child: FittedBox(
                             child: Text(
-                              _isPaused ? 'Resume' : 'Pause',
+                              viewModel.isPaused ? 'Resume' : 'Pause',
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.normal),
                             ),

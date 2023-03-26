@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_learn/screens/memory_game_screen.dart';
 import 'package:flutter_learn/widgets/dismiss_keyboard_widget.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,11 @@ import 'package:provider/provider.dart';
 import 'provider/memory_game_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

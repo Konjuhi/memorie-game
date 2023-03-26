@@ -21,7 +21,32 @@ class MemoryGameWidget extends StatelessWidget {
       builder: (context, constraints) {
         return GestureDetector(
           onTap: () {
-            viewModel.choose(card);
+            if (viewModel.isPaused) {
+              if (viewModel.isSnackBarShown) {
+                return;
+              }
+              viewModel.isSnackBarShown = false;
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: const Text('Please resume your game'),
+                      duration: const Duration(seconds: 2),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {
+                          // Do something when the user presses the dismiss button
+                        },
+                      ),
+                    ),
+                  )
+                  .closed
+                  .then((_) {
+                viewModel.isSnackBarShown = false;
+              });
+              viewModel.isSnackBarShown = true;
+            } else {
+              viewModel.choose(card);
+            }
           },
           child: Container(
             decoration: BoxDecoration(
