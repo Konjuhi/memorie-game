@@ -14,11 +14,11 @@ To run the app on a physical device, you need to enable USB debugging on the dev
 
 ## How to Play
 
-When you open the app, you'll be taken to the home screen where you can start a new game or resume an existing game. If you start a new game, you'll be taken to the game screen where you'll see a deck of cards.
+The Memory Game project consists of a home screen that displays a "New Game" button. When the "New Game" button is pressed, the game screen appears, displaying the shuffled cards face down.
 
-To play the game, you can tap on any two cards to flip them over. If the cards match, they stay flipped, otherwise, they are flipped back over. Your goal is to match all pairs of cards before the time runs out.
+The player can then flip over cards by tapping on them to reveal their images. If the two cards match, they will remain face up, and the player earns points. If the two cards do not match, they will flip back over, and the player can continue to flip cards until all pairs have been matched.
 
-The game ends when you match all pairs of cards or the time runs out. If you match all pairs of cards, you'll see a message showing how many pairs you matched and how much time it took you to complete the game. You can then choose to restart the game or go back to the home screen.
+The game also has a timer that starts when the player begins the game, and the player must match all pairs before the timer runs out. The game ends when the player has matched all pairs or when the timer runs out.
 
 ## Architecture
 
