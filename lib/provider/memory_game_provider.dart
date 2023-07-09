@@ -54,14 +54,20 @@ class MemoryGameProvider with ChangeNotifier {
 
   var newContent = emojis[Random().nextInt(emojis.length)];
 
-  static MemoryGameModel<String> createMemoryGame() {
+  MemoryGameProvider({
+    required int numberOfPairsOfCards,
+  }) {
+    model = createMemoryGame(numberOfPairsOfCards);
+  }
+
+  static MemoryGameModel<String> createMemoryGame(int numberOfPairsOfCards) {
     return MemoryGameModel(
-      numberOfPairsOfCards: 5,
+      numberOfPairsOfCards: numberOfPairsOfCards,
       createCardContent: (int pairIndex) => emojis[pairIndex],
     );
   }
 
-  final MemoryGameModel model = MemoryGameProvider.createMemoryGame();
+  late MemoryGameModel<String> model;
 
   List<CardModel>? get cards {
     return model.cards;
